@@ -150,7 +150,7 @@ void* al_get(ArrayList* this, int index)
 {
     void* returnAux = NULL;
 
-    if(this != NULL && index>=0 && index<(this->size))
+    if(this != NULL && index>=0 && index<this->len(this))
     {
         returnAux = *((this->pElements) + index);
 
@@ -190,7 +190,6 @@ int al_contains(ArrayList* this, void* pElement)
 
     }
 
-
     return returnAux;
 
 }
@@ -222,8 +221,6 @@ int al_set(ArrayList* this, int index,void* pElement)
         else if(index<this->len(this))
         {
             *(this->pElements + index) = pElement;
-
-
 
         }
 
@@ -316,8 +313,6 @@ ArrayList* al_clone(ArrayList* this)
                 }
 
             }
-
-
 
         }
 
@@ -427,8 +422,6 @@ int al_isEmpty(ArrayList* this)
 }
 
 
-
-
 /** \brief Remove the item at the given position in the list, and return it.
  * \param pList ArrayList* Pointer to arrayList
  * \param index int Index of the element
@@ -443,14 +436,11 @@ void* al_pop(ArrayList* this,int index)
     if(this != NULL && index>=0 && index<(this->len(this)))
     {
         returnAux = this->get(this,index);
-
-
         contract(this,index);
-
-
     }
 
     return returnAux;
+
 }
 
 
@@ -679,8 +669,8 @@ int expand(ArrayList* this,int index)
 
         for(i=this->len(this)-1; i>index; i--)
         {
-            //this->pElements[i]=this->pElements[i-1];
-            this->set(this,i,this->get(this,(this->pElements) + (i-1)));
+
+             this->set(this,i,this->get(this, i-1 ));
         }
         returnAux = 0;
 
@@ -706,8 +696,8 @@ int contract(ArrayList* this,int index)
 
         for(i=index; i<this->len(this); i++)
         {
-            // this->pElements[i] =  this->pElements[i+1];
-            this->set(this,i,this->get(this,(this->pElements) + (i+1) ));
+
+            this->set(this,i,this->get(this, i+1 ));
 
         }
         this->size--;
@@ -719,3 +709,4 @@ int contract(ArrayList* this,int index)
 
     return returnAux;
 }
+
